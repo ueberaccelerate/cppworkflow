@@ -31,7 +31,7 @@ class filecloser {
         throw file_error("sorry file is not openned");
       }
     }
-    ~filecloser() {
+    ~filecloser() noexcept {
       if (mFile.is_open()) {
         mFile.close();
       }
@@ -42,8 +42,7 @@ class filecloser {
 
 std::string read_file(std::string_view filename) {
   try {
-    std::ifstream input(filename);
-    filecloser fc{std::move(input)};
+    filecloser fc{std::ifstream(filename)};
     auto &stream = fc.stream();
     stream >> std::noskipws;
     std::string line = std::string(std::istream_iterator<char>(stream), std::istream_iterator<char>());
