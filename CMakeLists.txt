@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 project( cppworkflow CXX )
 
 include(cmake/Conan.cmake)
+set(CMAKE_BUILD_TYPE Release)
 
 add_library( cppfeatures INTERFACE)
 target_compile_features(cppfeatures INTERFACE cxx_std_17)
@@ -14,3 +15,4 @@ set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
 run_conan()
 
 add_subdirectory(regex)
+add_subdirectory(circular-buffers)
