@@ -60,6 +60,16 @@ class circularraw {
       *pposition = newvalue;
       pposition = next;
     }
+    
+    // return current positon of circular buffer
+    iterator position() {
+        return pposition;
+    }
+    
+    
+    std::array<value_type, Size> to_array() {
+        
+    }
 
   private:
      value_type buffer[Size];

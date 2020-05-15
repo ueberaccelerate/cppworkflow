@@ -10,9 +10,10 @@ target_compile_features(cppfeatures INTERFACE cxx_std_17)
 include(cmake/warnings.cmake)
 add_library( cppwarnings INTERFACE)
 set_project_warinigs(cppwarnings)
-set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
-                         imgui-sfml/2.1@bincrafters/stable)
-run_conan()
+#set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
+#                         imgui-sfml/2.1@bincrafters/stable)
+#run_conan()
 
-add_subdirectory(regex)
-add_subdirectory(circular-buffers)
+#add_subdirectory(regex)
+#add_subdirectory(circular-buffers)
+add_subdirectory(threadpool)
