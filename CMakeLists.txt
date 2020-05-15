@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.10)
 project( cppworkflow CXX )
 
 include(cmake/Conan.cmake)
@@ -14,3 +14,4 @@ set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
 run_conan()
 
 add_subdirectory(regex)
+add_subdirectory(console)

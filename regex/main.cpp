@@ -42,7 +42,7 @@ class filecloser {
 
 std::string read_file(std::string_view filename) {
   try {
-    filecloser fc{std::ifstream(filename)};
+    filecloser fc{std::ifstream(filename.data())};
     auto &stream = fc.stream();
     stream >> std::noskipws;
     std::string line = std::string(std::istream_iterator<char>(stream), std::istream_iterator<char>());
