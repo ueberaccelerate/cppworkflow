@@ -2,6 +2,9 @@
 // thread libraries
 #include <thread>
 #include <memory>
+#include <atomic>
+#include <mutex>
+#include <condition_variable>
 
 // utils libraries
 #include <functional>
@@ -11,6 +14,8 @@
 
 // output libraries
 #include <iostream>
+
+#define NODISCARD [[nodiscard]]
 
 template<typename T, typename Container = std::queue<T>>
 class threadsafe_queue {
@@ -38,7 +43,8 @@ public:
         queue_cv_.notify_one();
     }
     
-    [[nodiscard]] bool try_pop(T &element)  {
+    
+    NODISCARD bool try_pop(T &element)  {
         std::lock_guard<std::mutex> lock(queue_mutex_);
         if(queue_.empty()) {
             return false;
@@ -47,7 +53,8 @@ public:
         queue_.pop();
         return true;
     }
-    [[nodiscard]] value_type_ptr try_pop()  {
+
+    NODISCARD value_type_ptr try_pop()  {
         std::lock_guard<std::mutex> lock(queue_mutex_);
         if(queue_.empty()) {
             return value_type_ptr();
@@ -62,7 +69,8 @@ public:
         element = queue_.front();
         queue_.pop();
     }
-    value_type_ptr wait_and_pop() {
+    
+    NODISCARD value_type_ptr wait_and_pop() {
         std::unique_lock<std::mutex> lock(queue_mutex_);
         queue_cv_.wait(lock, [this](){return !queue_.empty();});
         auto result = std::make_shared<value_type>(queue_.front());
@@ -102,6 +110,8 @@ private:
                 }
             } catch ( invalid_task &error) {
                 std::cout << error.what() << '\n';
+            } catch( std::runtime_error &e) {
+              std::cout << e.what() << "\n";
             }
         }
     }
@@ -150,30 +160,6 @@ int main() {
     pool.submit([](int a, int b){
         return a + b;
     }, 42, 32);
-    pool.submit([](int a, int b){
-        return a + b;
-    }, 42, 32);
-    pool.submit([](int a, int b){
-        return a + b;
-    }, 42, 32);
-    pool.submit([](int a, int b){
-        return a + b;
-    }, 42, 32);
-    pool.submit([](int a, int b){
-        return a + b;
-    }, 42, 32);
-    pool.submit([](int a, int b){
-        return a + b;
-    }, 42, 32);
-    pool.submit([](int a, int b){
-        return a + b;
-    }, 42, 32);
-    pool.submit([](){
-        std::cout << "valid khuinya\n";
-    });
-    pool.submit([](int a, int b){
-        return a + b;
-    }, 42, 32);
-    
+
     return 0;
 }
