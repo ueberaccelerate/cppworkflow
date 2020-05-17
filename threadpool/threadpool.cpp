@@ -103,15 +103,11 @@ private:
             try {
                 VoidFunction task;
                 if ( queue_.try_pop(task) ) {
-                    std::cout << "new task avalible\n";
                     task();
                 } else {
                     std::this_thread::yield();
                 }
-            } catch ( invalid_task &error) {
-                std::cout << error.what() << '\n';
-            } catch( std::runtime_error &e) {
-              std::cout << e.what() << "\n";
+            } catch ( ... ) {
             }
         }
     }
@@ -140,7 +136,6 @@ public:
     void submit(FunctionType func, Args ...args) {
         queue_.push([&](){
             func(args...);
-            std::cout << "completed\n";
         });
     }
     
