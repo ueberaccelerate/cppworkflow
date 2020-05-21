@@ -72,6 +72,9 @@ public:
     void interrupt_wait() {
       queue_cv_.notify_one();
     }
+    ~threadsafe_queue() {
+      interrupt_wait();
+    }
 private:
     std::mutex    queue_mutex_;
     std::condition_variable queue_cv_;

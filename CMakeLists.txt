@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 project( cppworkflow CXX )
 
+option( ENABLED_CONSOLE  "The console features" OFF)
+option( ENABLED_PARALLEL "The parallel features" ON)
+
 include(cmake/Conan.cmake)
 set(CMAKE_BUILD_TYPE Release)
 
@@ -14,6 +17,13 @@ set_project_warinigs(cppwarnings)
 #                         imgui-sfml/2.1@bincrafters/stable)
 #run_conan()
 
-#add_subdirectory(regex)
-#add_subdirectory(circular-buffers)
-add_subdirectory(threadpool)
+add_library( cppworkflow INTERFACE )
+target_link_libraries( cppworkflow INTERFACE cppfeatures cppworkflow )
+
+add_subdirectory(src)
+
+if ( ENABLED_PARALLEL )
+  target_link_libraries( cppworkflow INTERFACE parallel )
+endif()
+
+add_subdirectory(examples)
