@@ -26,5 +26,6 @@ add_subdirectory(src)
 if ( ENABLED_PARALLEL )
   target_link_libraries( cppworkflow INTERFACE parallel )
 endif()
+target_link_libraries(cppworkflow INTERFACE algorithms )
 
 add_subdirectory(examples)
